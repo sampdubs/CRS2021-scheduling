@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/CRS2021-scheduling/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/CRS2021-scheduling/static/js/main.6660a1bd.chunk.js",
-    "main.js.map": "/CRS2021-scheduling/static/js/main.6660a1bd.chunk.js.map",
-    "runtime-main.js": "/CRS2021-scheduling/static/js/runtime-main.ed62e2e3.js",
-    "runtime-main.js.map": "/CRS2021-scheduling/static/js/runtime-main.ed62e2e3.js.map",
-    "static/js/2.ad2594f1.chunk.js": "/CRS2021-scheduling/static/js/2.ad2594f1.chunk.js",
-    "static/js/2.ad2594f1.chunk.js.map": "/CRS2021-scheduling/static/js/2.ad2594f1.chunk.js.map",
-    "static/js/3.444334bc.chunk.js": "/CRS2021-scheduling/static/js/3.444334bc.chunk.js",
-    "static/js/3.444334bc.chunk.js.map": "/CRS2021-scheduling/static/js/3.444334bc.chunk.js.map",
+    "main.css": "/CRS2021-scheduling/static/css/main.7a07af91.chunk.css",
+    "main.js": "/CRS2021-scheduling/static/js/main.33e2edd9.chunk.js",
+    "main.js.map": "/CRS2021-scheduling/static/js/main.33e2edd9.chunk.js.map",
+    "runtime-main.js": "/CRS2021-scheduling/static/js/runtime-main.3c1903b0.js",
+    "runtime-main.js.map": "/CRS2021-scheduling/static/js/runtime-main.3c1903b0.js.map",
+    "static/css/2.9aaf2cf1.chunk.css": "/CRS2021-scheduling/static/css/2.9aaf2cf1.chunk.css",
+    "static/js/2.29d6bd38.chunk.js": "/CRS2021-scheduling/static/js/2.29d6bd38.chunk.js",
+    "static/js/2.29d6bd38.chunk.js.map": "/CRS2021-scheduling/static/js/2.29d6bd38.chunk.js.map",
     "index.html": "/CRS2021-scheduling/index.html",
-    "static/css/main.8c8b27cf.chunk.css.map": "/CRS2021-scheduling/static/css/main.8c8b27cf.chunk.css.map",
-    "static/js/2.ad2594f1.chunk.js.LICENSE.txt": "/CRS2021-scheduling/static/js/2.ad2594f1.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/CRS2021-scheduling/static/media/logo.6ce24c58.svg"
+    "static/css/2.9aaf2cf1.chunk.css.map": "/CRS2021-scheduling/static/css/2.9aaf2cf1.chunk.css.map",
+    "static/css/main.7a07af91.chunk.css.map": "/CRS2021-scheduling/static/css/main.7a07af91.chunk.css.map",
+    "static/js/2.29d6bd38.chunk.js.LICENSE.txt": "/CRS2021-scheduling/static/js/2.29d6bd38.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ed62e2e3.js",
-    "static/js/2.ad2594f1.chunk.js",
-    "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.6660a1bd.chunk.js"
+    "static/js/runtime-main.3c1903b0.js",
+    "static/css/2.9aaf2cf1.chunk.css",
+    "static/js/2.29d6bd38.chunk.js",
+    "static/css/main.7a07af91.chunk.css",
+    "static/js/main.33e2edd9.chunk.js"
   ]
 }
