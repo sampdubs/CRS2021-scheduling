@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.rbc-time-slot {
+    min-height: 80px;
+}
