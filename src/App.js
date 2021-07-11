@@ -489,7 +489,7 @@ function App() {
     return (
         <div className="App">
             <img src={banner1} alt="CRS conference banner" />
-
+            <h2>Conference Schedule Overview</h2>
             <form onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
