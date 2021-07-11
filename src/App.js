@@ -43,7 +43,7 @@ function genRecommended(offset) {
         } else {
             nextPrimary = "B";
         }
-    } else if ((ot(8) >= 6 && ot(16) <= 26) || (ot(11) >= 6 && ot(19) <= 25)) {
+    } else if ((ot(8) >= 6 && ot(16) <= 25) || (ot(11) >= 6 && ot(19) <= 25)) {
         if (Math.abs(13 - ot(12)) < Math.abs(13 - ot(15))) {
             nextPrimary = "A";
         } else {
@@ -268,28 +268,28 @@ function App() {
         const utcStart = (start.getTime() - (offset * 60 * 1000)) / 1000;
         switch (primary) {
             case "A":
-                if (utcStart >= moment("2021-07-26T08:00:00").unix() && utcStart <= moment("2021-07-26T16:30:00").unix())
+                if (utcStart >= moment("2021-07-26T08:00:00").unix() && utcStart <= moment("2021-07-26T15:30:00").unix())
                     backgroundColor = "yellow";
-                else if (utcStart >= moment("2021-07-27T08:00:00").unix() && utcStart <= moment("2021-07-27T16:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T08:00:00").unix() && utcStart <= moment("2021-07-27T15:30:00").unix())
                     backgroundColor = "yellow";
                 break;
             case "B":
-                if (utcStart >= moment("2021-07-26T11:00:00").unix() && utcStart <= moment("2021-07-26T19:30:00").unix())
+                if (utcStart >= moment("2021-07-26T11:00:00").unix() && utcStart <= moment("2021-07-26T18:30:00").unix())
                     backgroundColor = "yellow";
-                else if (utcStart >= moment("2021-07-27T11:00:00").unix() && utcStart <= moment("2021-07-27T19:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T11:00:00").unix() && utcStart <= moment("2021-07-27T18:30:00").unix())
                     backgroundColor = "yellow";
                 break;
             case "C":
-                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T04:30:00").unix()) {
+                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()) {
                     backgroundColor = "yellow";
                 }
-                else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T04:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T03:30:00").unix())
                     backgroundColor = "yellow";
                 break;
             case "D":
-                if (utcStart >= moment("2021-07-26T23:00:00").unix() && utcStart <= moment("2021-07-27T07:30:00").unix())
+                if (utcStart >= moment("2021-07-26T23:00:00").unix() && utcStart <= moment("2021-07-27T06:30:00").unix())
                     backgroundColor = "yellow";
-                else if (utcStart >= moment("2021-07-27T23:00:00").unix() && utcStart <= moment("2021-07-28T07:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T23:00:00").unix() && utcStart <= moment("2021-07-28T06:30:00").unix())
                     backgroundColor = "yellow";
                 break;
         }
