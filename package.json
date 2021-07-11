@@ -29,7 +29,8 @@
             "react-app/jest"
         ],
         "rules": {
-            "default-case": "off"
+            "default-case": "off",
+            "semi": ["error", "always"]
         }
     },
     "browserslist": {

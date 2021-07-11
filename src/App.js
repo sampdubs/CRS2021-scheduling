@@ -6,7 +6,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useState } from 'react';
 import Geocode from "react-geocode";
 import { useEffect } from 'react';
-import banner1 from "./banner-1.jpg"
+import banner1 from "./banner-1.jpg";
 
 Geocode.setApiKey("AIzaSyAb94zapDceVmspV65wFj_-iV2AWQk9kwY");
 
@@ -339,9 +339,9 @@ function App() {
     }
 
     useEffect(() => {
-        const label = document.querySelector("#root > div > div > div.rbc-toolbar > span.rbc-toolbar-label")
+        const label = document.querySelector("#root > div > div > div.rbc-toolbar > span.rbc-toolbar-label");
         if (!label.innerHTML.includes("2021")) {
-            label.innerHTML += ", 2021"
+            label.innerHTML += ", 2021";
         }
         setEvents(processSchedule(schedule, offset));
         // following logic based on Mark's flowchart
