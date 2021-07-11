@@ -1,14 +1,11 @@
 .App {
   text-align: center;
   overflow: scroll;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .rbc-time-slot {
     min-height: 20px;
-}
-
-.rbc-header, .rbc-day-slot {
-    min-width: 300px;
 }
 
 .rbc-allday-cell {
