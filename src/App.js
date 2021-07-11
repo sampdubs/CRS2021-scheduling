@@ -9,12 +9,14 @@ import { useEffect } from 'react';
 import banner1 from "./banner-1.jpg";
 
 Geocode.setApiKey("AIzaSyAb94zapDceVmspV65wFj_-iV2AWQk9kwY");
+moment.tz.setDefault("America/New York");
+const localOffset = (new Date()).getTimezoneOffset() * 60;
 
 function processSchedule(schedule, utcOffset) {
     const processed = [];
     for (let event of schedule) {
-        const start = moment.unix(event[0] + utcOffset * 60).toDate();
-        const end = moment.unix(event[1] + utcOffset * 60 - 1).toDate();
+        const start = moment.unix(event[0] + utcOffset * 60 + localOffset - 4 * 60 * 60).utc().toDate();
+        const end = moment.unix(event[1] + utcOffset * 60 + localOffset - 4 * 60 * 60).utc().toDate();
         const title = event[2];
         processed.push(
             {
@@ -222,7 +224,7 @@ function App() {
     const [opening, setOpening] = useState("1");
     const [FTW, setFTW] = useState("1");
     const [view, setView] = useState("week");
-    const [day, setDay] = useState(moment.unix(1627185600).toDate());
+    const [day, setDay] = useState(moment.unix(1627171200 + localOffset).toDate());
 
     function handleLocation() {
         Geocode.fromAddress(location)
@@ -505,12 +507,12 @@ function App() {
                 {view === "day" && (
                     <div>
                         Select which day to show:
-                        <button style={{ marginLeft: "8px" }} onClick={() => setDay(moment.unix(1627185600).toDate())}>Sunday 25th</button>
-                        <button onClick={() => setDay(moment.unix(1627272000).toDate())}>Monday 26th</button>
-                        <button onClick={() => setDay(moment.unix(1627358400).toDate())}>Tuesday 27th</button>
-                        <button onClick={() => setDay(moment.unix(1627444800).toDate())}>Wednesday 28th</button>
-                        <button onClick={() => setDay(moment.unix(1627531200).toDate())}>Thursday 29th</button>
-                        <button onClick={() => setDay(moment.unix(1627617600).toDate())}>Friday 30th</button>
+                        <button style={{ marginLeft: "8px" }} onClick={() => setDay(moment.unix(1627185600 + localOffset).toDate())}>Sunday 25th</button>
+                        <button onClick={() => setDay(moment.unix(1627272000 + localOffset).toDate())}>Monday 26th</button>
+                        <button onClick={() => setDay(moment.unix(1627358400 + localOffset).toDate())}>Tuesday 27th</button>
+                        <button onClick={() => setDay(moment.unix(1627444800 + localOffset).toDate())}>Wednesday 28th</button>
+                        <button onClick={() => setDay(moment.unix(1627531200 + localOffset).toDate())}>Thursday 29th</button>
+                        <button onClick={() => setDay(moment.unix(1627617600 + localOffset).toDate())}>Friday 30th</button>
                     </div>
                 )}
             </form>
@@ -522,10 +524,12 @@ function App() {
                 startAccessor="start"
                 endAccessor="end"
                 view={view}
-                date={day} // Unix timestamp for June 11
+                date={day} // Unix timestamp for June 25
                 views={["week", "day"]}
                 eventPropGetter={eventStyleGetter}
                 showMultiDayTimes
+                min={new Date(2021, 7, 25, 0, 0, 0)}
+                max={new Date(2021, 7, 31, 23, 59, 59)} 
             />
             <p>Created by Sam Prausnitz-Weinbaum</p>
         </div>
