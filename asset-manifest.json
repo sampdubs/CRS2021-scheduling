@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/CRS2021-scheduling/static/css/main.fe6dbc43.chunk.css",
+    "main.css": "/CRS2021-scheduling/static/css/main.8b055a50.chunk.css",
     "main.js": "/CRS2021-scheduling/static/js/main.5cdb9129.chunk.js",
     "main.js.map": "/CRS2021-scheduling/static/js/main.5cdb9129.chunk.js.map",
     "runtime-main.js": "/CRS2021-scheduling/static/js/runtime-main.3c1903b0.js",
@@ -10,7 +10,7 @@
     "static/js/2.2123b30a.chunk.js.map": "/CRS2021-scheduling/static/js/2.2123b30a.chunk.js.map",
     "index.html": "/CRS2021-scheduling/index.html",
     "static/css/2.9aaf2cf1.chunk.css.map": "/CRS2021-scheduling/static/css/2.9aaf2cf1.chunk.css.map",
-    "static/css/main.fe6dbc43.chunk.css.map": "/CRS2021-scheduling/static/css/main.fe6dbc43.chunk.css.map",
+    "static/css/main.8b055a50.chunk.css.map": "/CRS2021-scheduling/static/css/main.8b055a50.chunk.css.map",
     "static/js/2.2123b30a.chunk.js.LICENSE.txt": "/CRS2021-scheduling/static/js/2.2123b30a.chunk.js.LICENSE.txt",
     "static/media/banner-1.e83332f8.jpg": "/CRS2021-scheduling/static/media/banner-1.e83332f8.jpg"
   },
@@ -18,7 +18,7 @@
     "static/js/runtime-main.3c1903b0.js",
     "static/css/2.9aaf2cf1.chunk.css",
     "static/js/2.2123b30a.chunk.js",
-    "static/css/main.fe6dbc43.chunk.css",
+    "static/css/main.8b055a50.chunk.css",
     "static/js/main.5cdb9129.chunk.js"
   ]
 }
