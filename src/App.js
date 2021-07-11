@@ -182,18 +182,9 @@ function genOpening(offset) {
     }
 
     if (ot(7) >= 9 && ot(7) <= 20) {
-        if ((ot(23) + 24) % 24 >= 8 && (ot(23) + 24) % 24 <= 20) {
-            return ["1", true];
-        }
-        return ["1", false];
-    } else if (ot(16) >= 8 && ot(16) <= 20) {
-        if ((ot(23) + 24) % 24 >= 8 && (ot(23) + 24) % 24 <= 20) {
-            return ["2", true];
-        }
-        return ["2", false];
-    } else {
-        return ["3", false];
+        return "1";
     }
+    return "2";
 }
 
 function genFTW(offset) {
@@ -229,7 +220,6 @@ function App() {
     const [pc2, setpc2] = useState("L");
     const [altPc2, setAltPc2] = useState("");
     const [opening, setOpening] = useState("1");
-    const [altOpening, setAltOpening] = useState(false);
     const [FTW, setFTW] = useState("1");
     const [view, setView] = useState("week");
     const [day, setDay] = useState(moment.unix(1627185600).toDate());
@@ -421,11 +411,6 @@ function App() {
                 break;
         }
 
-        if (altOpening) {
-            if (utcStart === moment("2021-07-25T23:00:00").unix())
-                backgroundColor = "#d9faf9";
-        }
-
         switch (FTW) {
             case "1":
                 if (utcStart === moment("2021-07-25T06:30:00").unix())
@@ -453,7 +438,7 @@ function App() {
         const [next1a, nextAlt1a] = gen1a(offset);
         const [next1b, nextAlt1b] = gen1b(offset);
         const [next2, nextAlt2] = gen2(offset);
-        const [nextOpening, nextAltOpening] = genOpening(offset);
+        const nextOpening = genOpening(offset);
         const nextFTW = genFTW(offset);
         if (nextPrimary !== primary) {
             setPrimary(nextPrimary);
@@ -482,9 +467,6 @@ function App() {
         if (nextOpening !== opening) {
             setOpening(nextOpening);
         }
-        if (nextAltOpening !== altOpening) {
-            setAltOpening(nextAltOpening);
-        }
         if (nextFTW !== FTW) {
             setFTW(nextFTW);
         }
@@ -501,7 +483,6 @@ function App() {
         view,
         day,
         opening,
-        altOpening,
         FTW
     ]);
 
@@ -546,6 +527,7 @@ function App() {
                 eventPropGetter={eventStyleGetter}
                 showMultiDayTimes
             />
+            <p>Created by Sam Prausnitz-Weinbaum</p>
         </div>
     );
 }
