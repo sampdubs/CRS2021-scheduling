@@ -6,6 +6,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useState } from 'react';
 import Geocode from "react-geocode";
 import { useEffect } from 'react';
+import banner1 from "./banner-1.jpg"
 
 Geocode.setApiKey("AIzaSyAb94zapDceVmspV65wFj_-iV2AWQk9kwY");
 
@@ -129,6 +130,7 @@ function App() {
     const localizer = momentLocalizer(moment);
     const [location, setLocation] = useState("Please enter your location:");
     const [offset, setOffset] = useState(0);
+    const [timezone, setTimezone] = useState("Greenwich Mean Time");
     const [events, setEvents] = useState(processSchedule(schedule, offset));
     const [primary, setPrimary] = useState("A");
     const [secondary, setSecondary] = useState("");
@@ -141,13 +143,13 @@ function App() {
             .then(
                 (response) => {
                     const { lat, lng } = response.results[0].geometry.location;
-                    console.log(lat, lng);
                     const url = 'https://maps.googleapis.com/maps/api/timezone/json?location=' + lat + ',' + lng + '&timestamp=1625976000&key=AIzaSyAb94zapDceVmspV65wFj_-iV2AWQk9kwY';
                     fetch(url)
                         .then((response) => {
                             if (response.ok) {
                                 response.json()
                                     .then((json) => {
+                                        setTimezone(json.timeZoneName);
                                         setOffset((json.dstOffset + json.rawOffset) / 60);
                                     })
                                     .catch(() => alert("Something went wrong. Please check the location and try again."));
@@ -276,7 +278,6 @@ function App() {
         const [nextPrimary, nextSecondary] = genRecommended(offset);
         const next1a = gen1a(offset);
         const next1b = gen1b(offset);
-        console.log(next1b)
         const next2 = gen2(offset);
         if (nextPrimary !== primary) {
             setPrimary(nextPrimary);
@@ -294,8 +295,11 @@ function App() {
             setpc2(next2);
         }
     }, [offset, primary, secondary, pc1a, pc1b, pc2]);
+
     return (
         <div className="App">
+            <img src={banner1} alt="CRS conference banner"/>
+            
             <form onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -306,6 +310,8 @@ function App() {
                 <button type="submit">Set Location!</button>
             </form>
             <br></br>
+            <h1>Currently showing schedule for {timezone}</h1>
+            <br></br>
             <Calendar
                 localizer={localizer}
                 events={events}
@@ -315,7 +321,8 @@ function App() {
                 defaultDate={moment.unix(1627185600).toDate()} // Unix timestamp for June 11
                 views={["week"]}
                 eventPropGetter={eventStyleGetter}
-                showMultiDayTimes={true}
+                showMultiDayTimes
+                step={15}
             />
         </div>
     );

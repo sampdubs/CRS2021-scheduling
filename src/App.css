@@ -4,12 +4,12 @@
 }
 
 .rbc-time-slot {
-    min-height: 40px;
+    min-height: 20px;
 }
 
-/* .rbc-header, .rbc-day-slot {
+.rbc-header, .rbc-day-slot {
     min-width: 300px;
-} */
+}
 
 .rbc-allday-cell {
     display: none;
@@ -29,4 +29,8 @@ button {
 
 .App {
     align-items: left;
+}
+
+img {
+    width: 100%;
 }
