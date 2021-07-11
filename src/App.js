@@ -79,12 +79,27 @@ function gen1a(offset) {
         return time;
     }
 
-    if (ot(16) >= 7 && ot(16) <= 18) {
-        return "L";
+    if (ot(16) >= 7 && ot(16) <= 19) {
+        if (ot(0) >= 7 && ot(0) <= 20) {
+            return ["L", "R1"];
+        } else if (ot(7) >= 7 && ot(7) <= 20) {
+            return ["L", "R2"];
+        }
+        return ["L", ""];
     } else if (ot(0) >= 7 && ot(0) <= 16) {
-        return "R1";
+        if (ot(16) >= 7 && ot(16) <= 20) {
+            return ["R1", "L"];
+        } else if (ot(7) >= 7 && ot(7) <= 20) {
+            return ["R1", "R2"];
+        }
+        return ["R1", ""];
     } else {
-        return "R2";
+        if (ot(16) >= 7 && ot(16) <= 20) {
+            return ["R2", "L"];
+        } else if (ot(0) >= 7 && ot(0) <= 20) {
+            return ["R2", "R1"];
+        }
+        return ["R2", ""];
     }
 }
 
@@ -98,12 +113,27 @@ function gen1b(offset) {
         return time;
     }
 
-    if (ot(21) >= 7 && ot(21) <= 18) {
-        return "L";
+    if ((ot(21) + 24) % 24 >= 7 && (ot(21) + 24) % 24 <= 18) {
+        if (ot(7) >= 7 && ot(7) <= 20) {
+            return ["L", "R1"];
+        } else if (ot(16) >= 7 && ot(16) <= 20) {
+            return ["L", "R2"];
+        }
+        return ["L", ""];
     } else if (ot(7) >= 7 && ot(7) <= 16) {
-        return "R1";
+        if ((ot(21) + 24) % 24 >= 7 && (ot(21) + 24) % 24 <= 20) {
+            return ["R1", "L"];
+        } else if (ot(16) >= 7 && ot(16) <= 20) {
+            return ["R1", "R2"];
+        }
+        return ["R1", ""];
     } else {
-        return "R2";
+        if (ot(7) >= 7 && ot(7) <= 20) {
+            return ["R2", "R1"];
+        } else if ((ot(21) + 24) % 24 >= 7 && (ot(21) + 24) % 24 <= 20) {
+            return ["R2", "L"];
+        }
+        return ["R2", ""];
     }
 }
 
@@ -118,11 +148,26 @@ function gen2(offset) {
     }
 
     if (ot(16) >= 7 && ot(16) <= 18) {
-        return "L";
+        if (ot(0) >= 7 && ot(0) <= 20) {
+            return ["L", "R1"];
+        } else if (ot(7) >= 7 && ot(7) <= 20) {
+            return ["L", "R2"];
+        }
+        return ["L", ""];
     } else if (ot(0) >= 7 && ot(0) <= 16) {
-        return "R1";
+        if (ot(16) >= 7 && ot(16) <= 20) {
+            return ["R1", "L"];
+        } else if (ot(7) >= 7 && ot(7) <= 20) {
+            return ["R1", "R2"];
+        }
+        return ["R1", ""];
     } else {
-        return "R2";
+        if (ot(16) >= 7 && ot(16) <= 20) {
+            return ["R2", "L"];
+        } else if (ot(0) >= 7 && ot(0) <= 20) {
+            return ["R2", "R1"];
+        }
+        return ["R2", ""];
     }
 }
 
@@ -136,12 +181,18 @@ function genOpening(offset) {
         return time;
     }
 
-    if (ot(7) >= 8 && ot(7) <= 18) {
-        return "1";
-    } else if (ot(16) >= 8 && ot(16) <= 18) {
-        return "2";
+    if (ot(7) >= 9 && ot(7) <= 20) {
+        if ((ot(23) + 24) % 24 >= 8 && (ot(23) + 24) % 24 <= 20) {
+            return ["1", true];
+        }
+        return ["1", false];
+    } else if (ot(16) >= 8 && ot(16) <= 20) {
+        if ((ot(23) + 24) % 24 >= 8 && (ot(23) + 24) % 24 <= 20) {
+            return ["2", true];
+        }
+        return ["2", false];
     } else {
-        return "3";
+        return ["3", false];
     }
 }
 
@@ -155,11 +206,12 @@ function genFTW(offset) {
         return time;
     }
 
-    if (ot(6.5) >= 8 && ot(6.5) <= 18) {
+    if (ot(6.5) >= 8 && ot(6.5) <= 19) {
         return "1";
-    } else {
+    } else if (ot(15.5) >= 7 && ot(15.5) <= 19) {
         return "2";
     }
+    return "";
 }
 
 function App() {
@@ -171,9 +223,13 @@ function App() {
     const [primary, setPrimary] = useState("A");
     const [secondary, setSecondary] = useState("");
     const [pc1a, setpc1a] = useState("L");
+    const [altPc1a, setAtlPc1a] = useState("");
     const [pc1b, setpc1b] = useState("L");
+    const [altPc1b, setAtlPc1b] = useState("");
     const [pc2, setpc2] = useState("L");
+    const [altPc2, setAltPc2] = useState("");
     const [opening, setOpening] = useState("1");
+    const [altOpening, setAltOpening] = useState(false);
     const [FTW, setFTW] = useState("1");
     const [view, setView] = useState("week");
     const [day, setDay] = useState(moment.unix(1627185600).toDate());
@@ -269,7 +325,23 @@ function App() {
                         backgroundColor = "yellow";
                     break;
             }
+
+            switch (altPc1a) {
+                case "L":
+                    if (utcStart === moment("2021-07-28T16:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+                case "R1":
+                    if (utcStart === moment("2021-07-29T00:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+                case "R2":
+                    if (utcStart === moment("2021-07-29T07:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+            }
         }
+
         if (event.title.includes("1B")) {
             switch (pc1b) {
                 case "L":
@@ -285,7 +357,23 @@ function App() {
                         backgroundColor = "yellow";
                     break;
             }
+
+            switch (altPc1b) {
+                case "L":
+                    if (utcStart === moment("2021-07-28T21:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+                case "R1":
+                    if (utcStart === moment("2021-07-29T07:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+                case "R2":
+                    if (utcStart === moment("2021-07-29T16:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+            }
         }
+
         if (event.title.includes("2")) {
             switch (pc2) {
                 case "L":
@@ -299,6 +387,21 @@ function App() {
                 case "R2":
                     if (utcStart === moment("2021-07-30T07:00:00").unix())
                         backgroundColor = "yellow";
+                    break;
+            }
+
+            switch (altPc2) {
+                case "L":
+                    if (utcStart === moment("2021-07-29T16:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+                case "R1":
+                    if (utcStart === moment("2021-07-30T00:00:00").unix())
+                        backgroundColor = "#d9faf9";
+                    break;
+                case "R2":
+                    if (utcStart === moment("2021-07-30T07:00:00").unix())
+                        backgroundColor = "#d9faf9";
                     break;
             }
         }
@@ -318,6 +421,11 @@ function App() {
                 break;
         }
 
+        if (altOpening) {
+            if (utcStart === moment("2021-07-25T23:00:00").unix())
+                backgroundColor = "#d9faf9";
+        }
+
         switch (FTW) {
             case "1":
                 if (utcStart === moment("2021-07-25T06:30:00").unix())
@@ -333,24 +441,19 @@ function App() {
             backgroundColor,
             color: "black"
         };
-        return {
-            style
-        };
+
+        return { style };
     }
 
     useEffect(() => {
-        const label = document.querySelector("#root > div > div > div.rbc-toolbar > span.rbc-toolbar-label");
-        if (!label.innerHTML.includes("2021")) {
-            label.innerHTML += ", 2021";
-        }
         setEvents(processSchedule(schedule, offset));
         // following logic based on Mark's flowchart
 
         const [nextPrimary, nextSecondary] = genRecommended(offset);
-        const next1a = gen1a(offset);
-        const next1b = gen1b(offset);
-        const next2 = gen2(offset);
-        const nextOpening = genOpening(offset);
+        const [next1a, nextAlt1a] = gen1a(offset);
+        const [next1b, nextAlt1b] = gen1b(offset);
+        const [next2, nextAlt2] = gen2(offset);
+        const [nextOpening, nextAltOpening] = genOpening(offset);
         const nextFTW = genFTW(offset);
         if (nextPrimary !== primary) {
             setPrimary(nextPrimary);
@@ -361,19 +464,46 @@ function App() {
         if (next1a !== pc1a) {
             setpc1a(next1a);
         }
+        if (nextAlt1a !== pc1a) {
+            setAtlPc1a(nextAlt1a);
+        }
         if (next1b !== pc1b) {
             setpc1b(next1b);
+        }
+        if (nextAlt1b !== pc1b) {
+            setAtlPc1b(nextAlt1b);
         }
         if (next2 !== pc2) {
             setpc2(next2);
         }
+        if (nextAlt2 !== altPc2) {
+            setAltPc2(nextAlt2);
+        }
         if (nextOpening !== opening) {
             setOpening(nextOpening);
+        }
+        if (nextAltOpening !== altOpening) {
+            setAltOpening(nextAltOpening);
         }
         if (nextFTW !== FTW) {
             setFTW(nextFTW);
         }
-    }, [offset, primary, secondary, pc1a, pc1b, pc2, view, day, opening, FTW]);
+    }, [
+        offset,
+        primary,
+        secondary,
+        pc1a,
+        altPc1a,
+        pc1b,
+        altPc1b,
+        pc2,
+        altPc2,
+        view,
+        day,
+        opening,
+        altOpening,
+        FTW
+    ]);
 
     return (
         <div className="App">
@@ -403,7 +533,8 @@ function App() {
                     </div>
                 )}
             </form>
-            <h3>Currently showing schedule for {timezone}</h3>
+            <p>Currently showing schedule for <strong>{timezone}</strong>, {view === "week" ? "July 25 – 31, 2021" : moment(day).format("dddd Do")}</p>
+            <p><span id="yellow">YELLOW</span> = recommended schedule, <span id="blue">BLUE</span> = alternate schedule</p>
             <Calendar
                 localizer={localizer}
                 events={events}

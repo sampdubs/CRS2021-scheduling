@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   overflow: scroll;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Calibri, Arial, sans-serif;
 }
 
 /* .rbc-time-slot, .rbc-event {
@@ -40,6 +40,14 @@ button {
     margin-left: 4px;
 }
 
-#root > div > div > div.rbc-toolbar > span:nth-child(3), #root > div > div > div.rbc-toolbar > span:nth-child(1) {
-    display: none;
+.rbc-toolbar {
+    display: none !important;
+}
+
+#yellow {
+    background-color: yellow;
+}
+
+#blue {
+    background-color: #d9faf9;
 }
