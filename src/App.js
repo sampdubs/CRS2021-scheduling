@@ -12,16 +12,16 @@ Geocode.setApiKey("AIzaSyAb94zapDceVmspV65wFj_-iV2AWQk9kwY");
 function processSchedule(schedule, utcOffset) {
     const processed = [];
     for (let event of schedule) {
-        const start = moment.unix(event[0] + utcOffset * 60 + 1).toDate();
+        const start = moment.unix(event[0] + utcOffset * 60).toDate();
         const end = moment.unix(event[1] + utcOffset * 60 - 1).toDate();
         const title = event[2];
-            processed.push(
-                {
-                    title,
-                    start,
-                    end,
-                }
-            );
+        processed.push(
+            {
+                title,
+                start,
+                end,
+            }
+        );
     }
 
     return processed;
@@ -35,9 +35,7 @@ function genRecommended(offset) {
 
     let nextPrimary = "";
     let nextSecondary = "";
-    console.log(ot(8))
     if ((ot(8) >= 7 && ot(16) <= 22) || (ot(11) >= 7 && ot(19) <= 22)) {
-        console.log(1)
         if (Math.abs(13 - ot(12)) < Math.abs(13 - ot(15))) {
             // This means A is closer to cetered at 1 pm
             nextPrimary = "A";
@@ -45,7 +43,6 @@ function genRecommended(offset) {
             nextPrimary = "B";
         }
     } else if ((ot(8) >= 7 && ot(16) <= 26) || (ot(11) >= 7 && ot(19) <= 25)) {
-        console.log(2)
         if (Math.abs(13 - ot(12)) < Math.abs(13 - ot(15))) {
             nextPrimary = "A";
         } else {
@@ -53,7 +50,6 @@ function genRecommended(offset) {
         }
 
         if ((ot(20) >= 7 && ot(4) <= 22) || (ot(23) >= 7 && ot(7) <= 22)) {
-            console.log(3)
             if (Math.abs(13 - ot(0)) < Math.abs(13 - ot(3))) {
                 // This means C is closer to cetered at 1 pm
                 nextSecondary = "C";
@@ -63,7 +59,6 @@ function genRecommended(offset) {
         } else {
         }
     } else {
-        console.log(4)
         if (Math.abs(13 - (ot(0) + 24) % 24) < Math.abs(13 - (ot(3) + 24) % 24)) {
             nextPrimary = "C";
         } else {
@@ -73,6 +68,63 @@ function genRecommended(offset) {
     return [nextPrimary, nextSecondary];
 }
 
+function gen1a(offset) {
+    function ot(time) {
+        // returns the time in utc translated to 24 hour time based on offset
+        time = time + offset / 60;
+        if (time < 0) {
+            return (time + 24) % 24;
+        }
+        return time;
+    }
+
+    if (ot(16) >= 7 && ot(16) <= 18) {
+        return "L";
+    } else if (ot(0) >= 8 && ot(0) <= 16) {
+        return "R1";
+    } else {
+        return "R2";
+    }
+}
+
+function gen1b(offset) {
+    function ot(time) {
+        // returns the time in utc translated to 24 hour time based on offset
+        time = time + offset / 60;
+        if (time < 0) {
+            return (time + 24) % 24;
+        }
+        return time;
+    }
+
+    if (ot(21) >= 7 && ot(21) <= 18) {
+        return "L";
+    } else if (ot(5) >= 8 && ot(5) <= 16) {
+        return "R1";
+    } else {
+        return "R2";
+    }
+}
+
+function gen2(offset) {
+    function ot(time) {
+        // returns the time in utc translated to 24 hour time based on offset
+        time = time + offset / 60;
+        if (time < 0) {
+            return (time + 24) % 24;
+        }
+        return time;
+    }
+
+    if (ot(16) >= 7 && ot(16) <= 18) {
+        return "L";
+    } else if (ot(0) >= 8 && ot(0) <= 16) {
+        return "R1";
+    } else {
+        return "R2";
+    }
+}
+
 function App() {
     const localizer = momentLocalizer(moment);
     const [location, setLocation] = useState("Please enter your location:");
@@ -80,9 +132,9 @@ function App() {
     const [events, setEvents] = useState(processSchedule(schedule, offset));
     const [primary, setPrimary] = useState("A");
     const [secondary, setSecondary] = useState("");
-    // const [pc1a, setpc1a] = useState("L");
-    // const [pc1b, setpc1b] = useState("L");
-    // const [pc2, setpc2] = useState("L");
+    const [pc1a, setpc1a] = useState("L");
+    const [pc1b, setpc1b] = useState("L");
+    const [pc2, setpc2] = useState("L");
 
     function handleLocation() {
         Geocode.fromAddress(location)
@@ -113,7 +165,7 @@ function App() {
     }
 
     function eventStyleGetter(event, start, end, isSelected) {
-        let backgroundColor = "#3174ad";
+        let backgroundColor = "grey";
         const utcStart = (start.getTime() - (offset * 60 * 1000)) / 1000;
         switch (primary) {
             case "A":
@@ -129,7 +181,7 @@ function App() {
                     backgroundColor = "yellow";
                 break;
             case "C":
-                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()){
+                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()) {
                     backgroundColor = "yellow";
                 }
                 else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T03:30:00").unix())
@@ -143,10 +195,9 @@ function App() {
                 break;
         }
 
-        // console.log("secondary", secondary);
         switch (secondary) {
             case "C":
-                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()){
+                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()) {
                     backgroundColor = "green";
                 }
                 else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T03:30:00").unix())
@@ -159,6 +210,56 @@ function App() {
                     backgroundColor = "green";
                 break;
         }
+
+        if (event.title.includes("1A")) {
+            switch (pc1a) {
+                case "L":
+                    if (utcStart === moment("2021-07-28T16:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+                case "R1":
+                    if (utcStart === moment("2021-07-29T00:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+                case "R2":
+                    if (utcStart === moment("2021-07-29T07:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+            }
+        }
+        if (event.title.includes("1B")) {
+            switch (pc1b) {
+                case "L":
+                    if (utcStart === moment("2021-07-28T21:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+                case "R1":
+                    if (utcStart === moment("2021-07-29T05:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+                case "R2":
+                    if (utcStart === moment("2021-07-29T16:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+            }
+        }
+        if (event.title.includes("2")) {
+            switch (pc2) {
+                case "L":
+                    if (utcStart === moment("2021-07-29T16:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+                case "R1":
+                    if (utcStart === moment("2021-07-30T00:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+                case "R2":
+                    if (utcStart === moment("2021-07-30T07:00:00").unix())
+                        backgroundColor = "yellow";
+                    break;
+            }
+        }
+
         const style = {
             backgroundColor,
             color: backgroundColor === "yellow" ? "black" : "white",
@@ -173,14 +274,26 @@ function App() {
         // following logic based on Mark's flowchart
 
         const [nextPrimary, nextSecondary] = genRecommended(offset);
+        const next1a = gen1a(offset);
+        const next1b = gen1b(offset);
+        console.log(next1b)
+        const next2 = gen2(offset);
         if (nextPrimary !== primary) {
             setPrimary(nextPrimary);
         }
         if (nextSecondary !== secondary) {
             setSecondary(nextSecondary);
         }
-        console.log(primary, secondary);
-    }, [offset, primary, secondary]);
+        if (next1a !== pc1a) {
+            setpc1a(next1a);
+        }
+        if (next1b !== pc1b) {
+            setpc1b(next1b);
+        }
+        if (next2 !== pc2) {
+            setpc2(next2);
+        }
+    }, [offset, primary, secondary, pc1a, pc1b, pc2]);
     return (
         <div className="App">
             <form onSubmit={(e) => {
