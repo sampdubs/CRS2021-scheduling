@@ -43,7 +43,7 @@ function genRecommended(offset) {
         } else {
             nextPrimary = "B";
         }
-    } else if ((ot(8) >= 7 && ot(16) <= 26) || (ot(11) >= 7 && ot(19) <= 25)) {
+    } else if ((ot(8) >= 6 && ot(16) <= 26) || (ot(11) >= 6 && ot(19) <= 25)) {
         if (Math.abs(13 - ot(12)) < Math.abs(13 - ot(15))) {
             nextPrimary = "A";
         } else {
@@ -51,7 +51,7 @@ function genRecommended(offset) {
         }
 
         if ((ot(20) >= 7 && ot(4) <= 22) || (ot(23) >= 7 && ot(7) <= 22)) {
-            if (Math.abs(13 - ot(0)) < Math.abs(13 - ot(3))) {
+            if (Math.abs(13 - (ot(0) + 24) % 24) < Math.abs(13 - (ot(3) + 24) % 24)) {
                 // This means C is closer to cetered at 1 pm
                 nextSecondary = "C";
             } else {
@@ -545,7 +545,6 @@ function App() {
                 views={["week", "day"]}
                 eventPropGetter={eventStyleGetter}
                 showMultiDayTimes
-                step={30}
             />
         </div>
     );
