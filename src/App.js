@@ -81,7 +81,7 @@ function gen1a(offset) {
 
     if (ot(16) >= 7 && ot(16) <= 18) {
         return "L";
-    } else if (ot(0) >= 8 && ot(0) <= 16) {
+    } else if (ot(0) >= 7 && ot(0) <= 16) {
         return "R1";
     } else {
         return "R2";
@@ -100,7 +100,7 @@ function gen1b(offset) {
 
     if (ot(21) >= 7 && ot(21) <= 18) {
         return "L";
-    } else if (ot(5) >= 8 && ot(5) <= 16) {
+    } else if (ot(7) >= 7 && ot(7) <= 16) {
         return "R1";
     } else {
         return "R2";
@@ -119,16 +119,52 @@ function gen2(offset) {
 
     if (ot(16) >= 7 && ot(16) <= 18) {
         return "L";
-    } else if (ot(0) >= 8 && ot(0) <= 16) {
+    } else if (ot(0) >= 7 && ot(0) <= 16) {
         return "R1";
     } else {
         return "R2";
     }
 }
 
+function genOpening(offset) {
+    function ot(time) {
+        // returns the time in utc translated to 24 hour time based on offset
+        time = time + offset / 60;
+        if (time < 0) {
+            return (time + 24) % 24;
+        }
+        return time;
+    }
+
+    if (ot(7) >= 8 && ot(7) <= 18) {
+        return "1";
+    } else if (ot(16) >= 8 && ot(16) <= 18) {
+        return "2";
+    } else {
+        return "3";
+    }
+}
+
+function genFTW(offset) {
+    function ot(time) {
+        // returns the time in utc translated to 24 hour time based on offset
+        time = time + offset / 60;
+        if (time < 0) {
+            return (time + 24) % 24;
+        }
+        return time;
+    }
+
+    if (ot(6.5) >= 8 && ot(6.5) <= 18) {
+        return "1";
+    } else {
+        return "2";
+    }
+}
+
 function App() {
     const localizer = momentLocalizer(moment);
-    const [location, setLocation] = useState("Please enter your location:");
+    const [location, setLocation] = useState("");
     const [offset, setOffset] = useState(0);
     const [timezone, setTimezone] = useState("Greenwich Mean Time");
     const [events, setEvents] = useState(processSchedule(schedule, offset));
@@ -137,6 +173,10 @@ function App() {
     const [pc1a, setpc1a] = useState("L");
     const [pc1b, setpc1b] = useState("L");
     const [pc2, setpc2] = useState("L");
+    const [opening, setOpening] = useState("1");
+    const [FTW, setFTW] = useState("1");
+    const [view, setView] = useState("week");
+    const [day, setDay] = useState(moment.unix(1627185600).toDate());
 
     function handleLocation() {
         Geocode.fromAddress(location)
@@ -167,49 +207,50 @@ function App() {
     }
 
     function eventStyleGetter(event, start, end, isSelected) {
-        let backgroundColor = "grey";
+        // this functions colors the recommended events
+        let backgroundColor = "#e0e0e0";
         const utcStart = (start.getTime() - (offset * 60 * 1000)) / 1000;
         switch (primary) {
             case "A":
-                if (utcStart >= moment("2021-07-26T08:00:00").unix() && utcStart <= moment("2021-07-26T15:30:00").unix())
+                if (utcStart >= moment("2021-07-26T08:00:00").unix() && utcStart <= moment("2021-07-26T16:30:00").unix())
                     backgroundColor = "yellow";
-                else if (utcStart >= moment("2021-07-27T08:00:00").unix() && utcStart <= moment("2021-07-27T15:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T08:00:00").unix() && utcStart <= moment("2021-07-27T16:30:00").unix())
                     backgroundColor = "yellow";
                 break;
             case "B":
-                if (utcStart >= moment("2021-07-26T11:00:00").unix() && utcStart <= moment("2021-07-26T18:30:00").unix())
+                if (utcStart >= moment("2021-07-26T11:00:00").unix() && utcStart <= moment("2021-07-26T19:30:00").unix())
                     backgroundColor = "yellow";
-                else if (utcStart >= moment("2021-07-27T11:00:00").unix() && utcStart <= moment("2021-07-27T18:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T11:00:00").unix() && utcStart <= moment("2021-07-27T19:30:00").unix())
                     backgroundColor = "yellow";
                 break;
             case "C":
-                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()) {
+                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T04:30:00").unix()) {
                     backgroundColor = "yellow";
                 }
-                else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T03:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T04:30:00").unix())
                     backgroundColor = "yellow";
                 break;
             case "D":
-                if (utcStart >= moment("2021-07-26T23:00:00").unix() && utcStart <= moment("2021-07-27T06:30:00").unix())
+                if (utcStart >= moment("2021-07-26T23:00:00").unix() && utcStart <= moment("2021-07-27T07:30:00").unix())
                     backgroundColor = "yellow";
-                else if (utcStart >= moment("2021-07-27T23:00:00").unix() && utcStart <= moment("2021-07-28T06:30:00").unix())
+                else if (utcStart >= moment("2021-07-27T23:00:00").unix() && utcStart <= moment("2021-07-28T07:30:00").unix())
                     backgroundColor = "yellow";
                 break;
         }
 
         switch (secondary) {
             case "C":
-                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T03:30:00").unix()) {
-                    backgroundColor = "green";
+                if (utcStart >= moment("2021-07-26T20:00:00").unix() && utcStart <= moment("2021-07-27T04:30:00").unix()) {
+                    backgroundColor = "#d9faf9";
                 }
-                else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T03:30:00").unix())
-                    backgroundColor = "green";
+                else if (utcStart >= moment("2021-07-27T20:00:00").unix() && utcStart <= moment("2021-07-28T04:30:00").unix())
+                    backgroundColor = "#d9faf9";
                 break;
             case "D":
-                if (utcStart >= moment("2021-07-26T23:00:00").unix() && utcStart <= moment("2021-07-27T06:30:00").unix())
-                    backgroundColor = "green";
-                else if (utcStart >= moment("2021-07-27T23:00:00").unix() && utcStart <= moment("2021-07-28T06:30:00").unix())
-                    backgroundColor = "green";
+                if (utcStart >= moment("2021-07-26T23:00:00").unix() && utcStart <= moment("2021-07-27T07:30:00").unix())
+                    backgroundColor = "#d9faf9";
+                else if (utcStart >= moment("2021-07-27T23:00:00").unix() && utcStart <= moment("2021-07-28T07:30:00").unix())
+                    backgroundColor = "#d9faf9";
                 break;
         }
 
@@ -236,7 +277,7 @@ function App() {
                         backgroundColor = "yellow";
                     break;
                 case "R1":
-                    if (utcStart === moment("2021-07-29T05:00:00").unix())
+                    if (utcStart === moment("2021-07-29T07:00:00").unix())
                         backgroundColor = "yellow";
                     break;
                 case "R2":
@@ -262,9 +303,35 @@ function App() {
             }
         }
 
+        switch (opening) {
+            case "1":
+                if (utcStart === moment("2021-07-25T07:00:00").unix())
+                    backgroundColor = "yellow";
+                break;
+            case "2":
+                if (utcStart === moment("2021-07-25T16:00:00").unix())
+                    backgroundColor = "yellow";
+                break;
+            case "3":
+                if (utcStart === moment("2021-07-25T23:00:00").unix())
+                    backgroundColor = "yellow";
+                break;
+        }
+
+        switch (FTW) {
+            case "1":
+                if (utcStart === moment("2021-07-25T06:30:00").unix())
+                    backgroundColor = "yellow";
+                break;
+            case "2":
+                if (utcStart === moment("2021-07-25T15:30:00").unix())
+                    backgroundColor = "yellow";
+                break;
+        }
+
         const style = {
             backgroundColor,
-            color: backgroundColor === "yellow" ? "black" : "white",
+            color: "black"
         };
         return {
             style
@@ -272,6 +339,10 @@ function App() {
     }
 
     useEffect(() => {
+        const label = document.querySelector("#root > div > div > div.rbc-toolbar > span.rbc-toolbar-label")
+        if (!label.innerHTML.includes("2021")) {
+            label.innerHTML += ", 2021"
+        }
         setEvents(processSchedule(schedule, offset));
         // following logic based on Mark's flowchart
 
@@ -279,6 +350,8 @@ function App() {
         const next1a = gen1a(offset);
         const next1b = gen1b(offset);
         const next2 = gen2(offset);
+        const nextOpening = genOpening(offset);
+        const nextFTW = genFTW(offset);
         if (nextPrimary !== primary) {
             setPrimary(nextPrimary);
         }
@@ -294,35 +367,54 @@ function App() {
         if (next2 !== pc2) {
             setpc2(next2);
         }
-    }, [offset, primary, secondary, pc1a, pc1b, pc2]);
+        if (nextOpening !== opening) {
+            setOpening(nextOpening);
+        }
+        if (nextFTW !== FTW) {
+            setFTW(nextFTW);
+        }
+    }, [offset, primary, secondary, pc1a, pc1b, pc2, view, day, opening, FTW]);
 
     return (
         <div className="App">
-            <img src={banner1} alt="CRS conference banner"/>
-            
+            <img src={banner1} alt="CRS conference banner" />
+
             <form onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 handleLocation();
             }}>
-                <input value={location} onChange={e => setLocation(e.target.value)} />
-                <br></br>
+                <input value={location} onChange={e => setLocation(e.target.value)} placeholder="Please enter your location:" />
                 <button type="submit">Set Location!</button>
+                <div>
+                    Select your view:
+                    <button style={{ marginLeft: "8px" }} onClick={() => setView("day")}>Day</button>
+                    <button onClick={() => setView("week")}>Week</button>
+                </div>
+                {view === "day" && (
+                    <div>
+                        Select which day to show:
+                        <button style={{ marginLeft: "8px" }} onClick={() => setDay(moment.unix(1627185600).toDate())}>Sunday 25th</button>
+                        <button onClick={() => setDay(moment.unix(1627272000).toDate())}>Monday 26th</button>
+                        <button onClick={() => setDay(moment.unix(1627358400).toDate())}>Tuesday 27th</button>
+                        <button onClick={() => setDay(moment.unix(1627444800).toDate())}>Wednesday 28th</button>
+                        <button onClick={() => setDay(moment.unix(1627531200).toDate())}>Thursday 29th</button>
+                        <button onClick={() => setDay(moment.unix(1627617600).toDate())}>Friday 30th</button>
+                    </div>
+                )}
             </form>
-            <br></br>
-            <h1>Currently showing schedule for {timezone}</h1>
-            <br></br>
+            <h3>Currently showing schedule for {timezone}</h3>
             <Calendar
                 localizer={localizer}
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
-                defaultView="week"
-                defaultDate={moment.unix(1627185600).toDate()} // Unix timestamp for June 11
-                views={["week"]}
+                view={view}
+                date={day} // Unix timestamp for June 11
+                views={["week", "day"]}
                 eventPropGetter={eventStyleGetter}
                 showMultiDayTimes
-                step={15}
+                step={30}
             />
         </div>
     );
