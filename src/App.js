@@ -518,6 +518,7 @@ function App() {
             </form>
             <p>Currently showing schedule for <strong>{timezone}</strong>, {view === "week" ? "July 25 – 31, 2021" : moment(day).format("dddd Do")}</p>
             <p><span id="yellow">YELLOW</span> = recommended schedule, <span id="blue">BLUE</span> = alternate schedule</p>
+            <p>Select “Day” view to see the full names of all events below</p>
             <Calendar
                 localizer={localizer}
                 events={events}
