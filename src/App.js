@@ -6,7 +6,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useState } from 'react';
 import Geocode from "react-geocode";
 import { useEffect } from 'react';
-import banner1 from "./banner-1.jpg";
+import banner from "./banner-4.png";
 
 Geocode.setApiKey("AIzaSyAb94zapDceVmspV65wFj_-iV2AWQk9kwY");
 moment.tz.setDefault("America/New York");
@@ -490,7 +490,7 @@ function App() {
 
     return (
         <div className="App">
-            <img src={banner1} alt="CRS conference banner" />
+            <img src={banner} alt="CRS conference banner" />
             <h2>Conference Schedule Overview</h2>
             <form onSubmit={(e) => {
                 e.preventDefault();
